@@ -25,13 +25,13 @@ public class CredentialsLoader {
 		// load a properties file
 		prop.load(input);
 
-		this.setSpeechToTextUser(prop.getProperty("SpecchToTextUser"));
-		this.setSpeechToTextPassword(prop.getProperty("SpeechToTextPassword"));
-		this.setConversationUser(prop.getProperty("ConversationUser"));
-		this.setConversationPassword(prop.getProperty("ConversationPassword"));
+		this.setSpeechToTextUser(prop.getProperty("SpeechToText-User"));
+		this.setSpeechToTextPassword(prop.getProperty("SpeechToText-Password"));
+		this.setConversationUser(prop.getProperty("Conversation-User"));
+		this.setConversationPassword(prop.getProperty("Conversation-Password"));
 		this.setConversationWorkspaceId(prop.getProperty("ConversationWorkspaceId"));
-		this.setTextToSpeechUser(prop.getProperty("TextToSpeechUser"));
-		this.setTextToSpeechPassword(prop.getProperty("TextToSpeechPassword"));
+		this.setTextToSpeechUser(prop.getProperty("TextToSpeech-User"));
+		this.setTextToSpeechPassword(prop.getProperty("TextToSpeech-Password"));
 	}
 
 	

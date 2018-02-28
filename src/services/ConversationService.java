@@ -30,18 +30,17 @@ import com.ibm.watson.developer_cloud.text_to_speech.v1.util.WaveUtils;
 public class ConversationService {
 	
 
-	public CredentialsLoader credentialsLoader;
+	public CredentialsLoader credentials;
 	
 	public ConversationService () throws IOException {
-		credentialsLoader = new CredentialsLoader();
+		credentials = new CredentialsLoader();
 	}
-	
-	
 	
 	public void escuchar() throws LineUnavailableException {
 
 		SpeechToText service = new SpeechToText();
-		service.setUsernameAndPassword( credentialsLoader.getSpeechToTextUser() , credentialsLoader.getSpeechToTextPassword());
+		
+		service.setUsernameAndPassword( credentials.getSpeechToTextUser() , credentials.getSpeechToTextPassword());
 
 		// Signed PCM AudioFormat with 16kHz, 16 bit sample size, mono
 		int sampleRate = 16000;
@@ -61,12 +60,14 @@ public class ConversationService {
 			public void onTranscription(SpeechResults speechResults) {
 				if (speechResults.isFinal()) {
 					String message = speechResults.getResults().get(0).getAlternatives().get(0).getTranscript();
-					System.out.println(message);
-					
+					System.out.println("Pregunta : " + message);
+					hablar(message);
 					line.stop();
 					line.close();
 					
 					String respuesta = consultar(message);
+					System.out.println("Respuesta : " + respuesta);
+
 					hablar(respuesta);
 
 					try {
@@ -85,19 +86,21 @@ public class ConversationService {
 
 	public String consultar(String message) {
 		Conversation service = new Conversation(Conversation.VERSION_DATE_2017_05_26);
-		service.setUsernameAndPassword(credentialsLoader.getConversationUser(), credentialsLoader.getConversationPassword());
+		service.setUsernameAndPassword(credentials.getConversationUser(), credentials.getConversationPassword());
 
 		InputData input = new InputData.Builder(message).build();
-		MessageOptions options = new MessageOptions.Builder(credentialsLoader.getConversationWorkspaceId()).input(input).build();
+		MessageOptions options = new MessageOptions.Builder(credentials.getConversationWorkspaceId()).input(input).build();
 		MessageResponse response = service.message(options).execute();
+		
 		System.out.println(((ArrayList<String>) response.getOutput().get("text")).get(0));
+		
 		return ((ArrayList<String>) response.getOutput().get("text")).get(0);
 	}
 
 	public void hablar(String mensaje) {
 		TextToSpeech service = new TextToSpeech();
 		
-		service.setUsernameAndPassword(credentialsLoader.getTextToSpeechUser(), credentialsLoader.getTextToSpeechPassword());
+		service.setUsernameAndPassword(credentials.getTextToSpeechUser(), credentials.getTextToSpeechPassword());
 		CountDownLatch syncLatch = new CountDownLatch(1);
 		try {
 

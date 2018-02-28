@@ -25,6 +25,8 @@ public class CredentialsLoader {
 		// load a properties file
 		prop.load(input);
 
+		
+		System.out.println(prop.getProperty("SpeechToText-User"));
 		this.setSpeechToTextUser(prop.getProperty("SpeechToText-User"));
 		this.setSpeechToTextPassword(prop.getProperty("SpeechToText-Password"));
 		this.setConversationUser(prop.getProperty("Conversation-User"));

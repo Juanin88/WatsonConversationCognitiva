@@ -100,6 +100,8 @@ public class ConversationService {
 	public void hablar(String mensaje) {
 		TextToSpeech service = new TextToSpeech();
 		
+		System.out.println(credentials.getTextToSpeechUser() + " " + credentials.getTextToSpeechPassword());
+		
 		service.setUsernameAndPassword(credentials.getTextToSpeechUser(), credentials.getTextToSpeechPassword());
 		CountDownLatch syncLatch = new CountDownLatch(1);
 		try {
